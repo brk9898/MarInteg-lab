@@ -1,5 +1,5 @@
 # YTU-Robotics Lab 🤖
-Welcome to the official GitHub repository for the **Yıldız Technical University Robotics Laboratory**. This private repository is dedicated to collaboration between students, researchers, and instructors working on embedded systems, robotics, VHDL/FPGA development, and control systems.
+Welcome to the official GitHub repository for the **Yıldız Technical University Robotics Laboratory**. This repository is dedicated to collaboration between students, researchers, and instructors working on embedded systems, robotics, VHDL/FPGA development, and control systems.
 
 ## 🔍 Purpose
 This repository serves as a central hub for:
