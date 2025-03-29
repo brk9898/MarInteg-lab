@@ -43,7 +43,7 @@ component Top_Module is
         clk      : in  std_logic;
         reset    : in  std_logic;        
         sclk     : in  std_logic;
-        switch   : in  std_logic_vector(2 downto 0); -- 3-bit switch sinyali                        
+        rx       : in  std_logic; -- 3-bit switch sinyali                
         ss_n     : in  std_logic;
         mosi     : in  std_logic;
         miso     : out std_logic;
@@ -51,16 +51,20 @@ component Top_Module is
     );
 end component;
 
-signal clk     : std_logic := '0';
-signal reset   : std_logic := '0';
-signal sclk    : std_logic := '0';
-signal ss_n    : std_logic := '1';
-signal mosi    : std_logic := '0';
-signal miso    : std_logic := '0';
-signal cpol    : std_logic := '0';
-signal cpha    : std_logic := '0';
+signal clk          : std_logic := '0';
+signal reset        : std_logic := '0';
+signal sclk         : std_logic := '0';
+signal ss_n         : std_logic := '1';
+signal mosi         : std_logic := '0';
+signal miso         : std_logic := '0';
+signal cpol         : std_logic := '0';
+signal cpha         : std_logic := '0';
 signal SPISIGNAL 	: std_logic_vector(15 downto 0) := (others => '0');
+signal rx           : std_logic := '0';
 
+constant c_baud115200	: time := 1 us;
+constant c_hex43		: std_logic_vector (9 downto 0) := '1' & x"43" & '0';
+constant c_hexA5		: std_logic_vector (9 downto 0) := '1' & x"A5" & '0';
 
 begin
 
@@ -83,7 +87,25 @@ begin
 	wait for 528 ns;
 end process;
 
+P_STIMULI : process begin
 
+    wait for 50 ns;
+    
+    for i in 0 to 9 loop
+        rx <= c_hex43(i);
+        wait for c_baud115200;
+    end loop;
+    
+    wait for 10 us;
+    
+    for i in 0 to 9 loop
+        rx <= c_hexA5(i);
+        wait for c_baud115200;
+    end loop; 
+    
+    wait for 20 us;
+
+end process P_STIMULI;
 
 
 SPIWRITE_P : process begin
@@ -146,7 +168,7 @@ uut: Top_Module
 PORT MAP (
         clk       =>    clk      ,
         reset     =>    reset    ,
-        switch    =>    "101"    ,
+        rx        =>    rx       ,
         sclk      =>    sclk     ,
         ss_n      =>    ss_n     ,
         mosi      =>    mosi     ,
